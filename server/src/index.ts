@@ -1,9 +1,14 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client";
+import { cors } from "hono/cors";
+
+
+
 
 const app = new Hono();
 const prisma = new PrismaClient();
+app.use("*", cors());
 
 app.get("", (c) => {
   return c.text(
@@ -31,7 +36,7 @@ app.post("/customers", async (c) => {
         address,
       },
     });
-    console.log("Created Successfull");
+    
     return c.json({ message: customer }, 200);
   } catch (error) {
     console.error(error);
